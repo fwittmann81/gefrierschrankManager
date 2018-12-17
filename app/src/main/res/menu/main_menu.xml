@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addItem"
+        android:icon="@drawable/ic_freeze"
+        android:title="@string/newItem"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/sortItems"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="edit"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings" />
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout" />
+</menu>

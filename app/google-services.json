@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "246281205773",
+    "firebase_url": "https://gefrierschrankmanager.firebaseio.com",
+    "project_id": "gefrierschrankmanager",
+    "storage_bucket": "gefrierschrankmanager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246281205773:android:d3f23fb5477bfa22",
+        "android_client_info": {
+          "package_name": "com.example.wittmanf.gefrierschrankmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246281205773-hb9kvlj20altevd3aa4ajt2kmf8dsaan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4x7vrlrjZ-FEgCsbLqLGPDU7L2rXfgIM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">What\'s in the Freezer?</string>
+    <string name="activity_main">Inhalt</string>
+    <string name="activity_name_add_item">Essen einfrieren</string>
+    <string name="settings">Einstellungen</string>
+    <string name="logout">Logout</string>
+    <string name="newItem">Neue Ware einfrieren</string>
+    <string name="Kategorie_header">Kategorie</string>
+    <string name="activity_name_modify_item">Essen bearbeiten</string>
+    <string name="activity_name_show_details">Details</string>
+
+    <string-array name="kategorien">
+        <item>Eis</item>
+        <item>Fisch</item>
+        <item>Fleisch</item>
+        <item>Gemüse</item>
+        <item>Glutenfrei</item>
+        <item>Obst</item>
+        <item>Sonstiges</item>
+    </string-array>
+
+    <string-array name="Einheiten">
+        <item>g</item>
+        <item>ml</item>
+        <item>st</item>
+    </string-array>
+
+    <string-array name="sortOptions">
+        <item>Name</item>
+        <item>Kategorie</item>
+        <item>Haltbarkeit</item>
+        <item>Fach</item>
+    </string-array>
+
+    <string-array name="alertTimes">
+        <item>3 Tage</item>
+        <item>1 Woche</item>
+        <item>2 Wochen</item>
+        <item>3 Wochen</item>
+        <item>4 Wochen</item>
+        <item>Nie</item>
+    </string-array>
+
+    <string name="item_edit_section_label">Fach %1$d</string>
+
+</resources>

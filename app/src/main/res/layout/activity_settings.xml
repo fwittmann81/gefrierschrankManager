@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/lblBenachrichtigung"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Benachrichtigungen"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/alertTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Vor Ablauf benachrichtigen"
+        app:hintEnabled="true"
+        app:hintTextAppearance="@android:style/TextAppearance.StatusBar.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblBenachrichtigung">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/alertET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Zeit bevor das Essen abläuft"
+            android:maxLines="1"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/lblFreezerID"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Allgemein"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alertTime" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/fachLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Wie viele Fächer hat dein Gefrierschrank?"
+        app:hintTextAppearance="@android:style/TextAppearance.StatusBar.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblFreezerID">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/countfachTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Anzahl Fächer"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/freezerIdLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Gefrierschrank ID"
+        app:hintTextAppearance="@android:style/TextAppearance.StatusBar.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fachLayout">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/freezerIdTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Gefrierschrank ID"
+            android:maxLines="1"
+            android:textSize="16sp" />
+    </android.support.design.widget.TextInputLayout>
+
+</android.support.constraint.ConstraintLayout>
