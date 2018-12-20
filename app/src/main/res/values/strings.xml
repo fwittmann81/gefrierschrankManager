@@ -20,10 +20,16 @@
         <item>Sonstiges</item>
     </string-array>
 
-    <string-array name="Einheiten">
+    <string-array name="einheiten">
         <item>g</item>
         <item>ml</item>
         <item>st</item>
+    </string-array>
+
+    <string-array name="einheitenLabels">
+        <item>Gramm</item>
+        <item>Volumen</item>
+        <item>Stück</item>
     </string-array>
 
     <string-array name="sortOptions">

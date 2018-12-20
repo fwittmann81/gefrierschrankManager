@@ -20,6 +20,7 @@ import com.example.wittmanf.gefrierschrankmanager.R;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -50,13 +51,14 @@ public class ModifyItemActivity extends AppCompatActivity {
         fachSpinner = findViewById(R.id.fachSpinner);
 
         //initalize kategorie spinner
-        ArrayAdapter<String> myAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.kategorien));
+        String[] kategorien = getResources().getStringArray(R.array.kategorien);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, kategorien);
         myAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         kategorienSpinner.setAdapter(myAdapter);
 
         //initalize fach spinner
         SharedPreferences sharedPreferences = getSharedPreferences("com.example.wittmanf.gefrierschrankmanager", MODE_PRIVATE);
-        int countFach = sharedPreferences.getInt("countFach", 1);
+        int countFach = sharedPreferences.getInt(Constants.SP_COUNT_FACH, 1);
         ArrayList<String> faecher = new ArrayList<>();
         for (int i = 1; i <= countFach; i++) {
             faecher.add(String.format(getResources().getString(R.string.item_edit_section_label), i));
@@ -67,7 +69,8 @@ public class ModifyItemActivity extends AppCompatActivity {
         fachSpinner.setAdapter(myFachAdapter);
 
         //initalize einheiten spinner
-        ArrayAdapter<String> myEinheitenAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Einheiten));
+        String[] einheiten = getResources().getStringArray(R.array.einheiten);
+        ArrayAdapter<String> myEinheitenAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.einheiten));
         myEinheitenAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         einheitenSpinner.setAdapter(myEinheitenAdapter);
 
@@ -75,14 +78,9 @@ public class ModifyItemActivity extends AppCompatActivity {
                 new AdapterView.OnItemSelectedListener() {
 
                     @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String einheit = String.valueOf(adapterView.getItemAtPosition(i));
-                        if (Item.EinheitenEnum.GRAMM.toString().equals(einheit))
-                            amountET.setHint("Gewicht");
-                        if (Item.EinheitenEnum.VOLUMEN.toString().equals(einheit))
-                            amountET.setHint("Volumen");
-                        if (Item.EinheitenEnum.STUECK.toString().equals(einheit))
-                            amountET.setHint("Anzahl");
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                        String[] einheitenLabels = getResources().getStringArray(R.array.einheitenLabels);
+                        amountET.setHint(einheitenLabels[position]);
                     }
 
                     @Override
@@ -91,14 +89,13 @@ public class ModifyItemActivity extends AppCompatActivity {
                 }
         );
 
-        //check if we are in edit-Mode or add-Mode
         Intent intent = getIntent();
         item = (Item) intent.getExtras().getSerializable("itemToModify");
 
         //fill fields with the values of item
         nameET.setText(item.getName());
-        kategorienSpinner.setSelection(item.getKategorie().getPosition());
-        einheitenSpinner.setSelection(item.getEinheit().getPosition());
+        kategorienSpinner.setSelection(Arrays.asList(kategorien).indexOf(item.getKategorie()));
+        einheitenSpinner.setSelection(Arrays.asList(kategorien).indexOf(item.getEinheit()));
 
         //only set max freeze date if it is not the default value 31.12.9999
         String maxFreezeDate = Constants.SDF.format(item.getMaxFreezeDate());
@@ -156,8 +153,8 @@ public class ModifyItemActivity extends AppCompatActivity {
 
     public void save() {
         String name = nameET.getText().toString();
-        Item.KategorieEnum kategorie = Item.KategorieEnum.get(kategorienSpinner.getSelectedItem().toString());
-        Item.EinheitenEnum einheit = Item.EinheitenEnum.get(einheitenSpinner.getSelectedItem().toString());
+        String kategorie = kategorienSpinner.getSelectedItem().toString();
+        String einheit = einheitenSpinner.getSelectedItem().toString();
 
         Date maxFreezeDate = null;
         try {

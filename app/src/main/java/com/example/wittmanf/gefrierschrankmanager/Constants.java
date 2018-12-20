@@ -10,11 +10,13 @@ public class Constants {
     public static final int REQUEST_MODIFY_ITEM = 2;
     public static final String DEFAULT_MAX_FREEZE_DATE = "31.12.9999";
 
+    //Sort options constants
     public static final String SORT_NAME = "Name";
     public static final String SORT_KATEGORIE = "Kategorie";
     public static final String SORT_HALTBARKEIT = "Haltbarkeit";
     public static final String SORT_FACH = "Fach";
 
+    //Notification constants
     public static final String ALERT_THREE_DAYS = "3 Tage";
     public static final String ALERT_ONE_WEEK = "1 Woche";
     public static final String ALERT_TWO_WEEKS = "2 Wochen";
@@ -32,7 +34,7 @@ public class Constants {
         ALERTIME_DAYS_MAPPING.put(ALERT_FOUR_WEEKS, 28);
     }
 
-    public static final String DB_CHILD_FREEZER = "freezer";
+    //DB constants
     public static final String DB_CHILD_ITEMS = "items";
     public static final String DB_CHILD_EXP_DATE_SHOWN = "expDateShown";
     public static final String DB_CHILD_NAME = "name";
@@ -42,4 +44,9 @@ public class Constants {
     public static final String DB_CHILD_FACH = "fach";
     public static final String DB_CHILD_KATEGORIE = "kategorie";
     public static final String DB_CHILD_MAX_FREEZE_DATE = "maxFreezeDate";
+
+    //SharedPreferences constants
+    public static final String SP_FREEZER_ID = "freezerId";
+    public static final String SP_COUNT_FACH = "countFach";
+    public static final String SP_ALERT_TIME = "alertTime";
 }

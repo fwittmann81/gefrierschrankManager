@@ -18,16 +18,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.wittmanf.gefrierschrankmanager.widget.ItemListViewAdapter;
 import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.Item;
 import com.example.wittmanf.gefrierschrankmanager.R;
-import com.example.wittmanf.gefrierschrankmanager.widget.SortDialog;
 import com.example.wittmanf.gefrierschrankmanager.comparator.FachComparator;
 import com.example.wittmanf.gefrierschrankmanager.comparator.KategorieComparator;
 import com.example.wittmanf.gefrierschrankmanager.comparator.MaxHaltbarkeitComparator;
 import com.example.wittmanf.gefrierschrankmanager.comparator.NameComparator;
 import com.example.wittmanf.gefrierschrankmanager.notification.NotificationHandler;
+import com.example.wittmanf.gefrierschrankmanager.widget.ItemListViewAdapter;
+import com.example.wittmanf.gefrierschrankmanager.widget.SortDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements SortDialog.OnInputListener {
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
     private ItemListViewAdapter itemListViewAdapter;
     SharedPreferences sharedPreferences;
     public static String FREEZER_ID;
+    String[] kategorien;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +58,14 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
 
         //get FREEZER_ID to connect to correct database allItems
         sharedPreferences = getSharedPreferences("com.example.wittmanf.gefrierschrankmanager", Context.MODE_PRIVATE);
-        FREEZER_ID = sharedPreferences.getString("freezerId", "-1");
+        FREEZER_ID = sharedPreferences.getString(Constants.SP_FREEZER_ID, "-1");
 
         //create ListView for databaseItems
         ListView itemListView = findViewById(R.id.itemListView);
         itemListViewAdapter = new ItemListViewAdapter(this, R.layout.custom_listview_layout, allItems);
         itemListView.setAdapter(itemListViewAdapter);
 
+        kategorien = getResources().getStringArray(R.array.kategorien);
 
         //if an item was selected to detail view
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -172,13 +175,14 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
         int count = 1;
 
         //initialize Kategorie filter
-        for (Item.KategorieEnum kategorie : Item.KategorieEnum.values()) {
-            kategorieSubMenu.add(0, count, kategorie.getPosition(), kategorie.getDescription());
+        String[] kategorien = getResources().getStringArray(R.array.kategorien);
+        for (String kategorie : kategorien) {
+            kategorieSubMenu.add(0, count, count, kategorie);
             count++;
         }
 
         //initialize Fach filter
-        int countFach = sharedPreferences.getInt("countFach", 1);
+        int countFach = sharedPreferences.getInt(Constants.SP_COUNT_FACH, 1);
         for (int i = 0; i < countFach; i++) {
             fachSubMenu.add(1, count, i, String.format(getResources().getString(R.string.item_edit_section_label), i + 1));
         }
@@ -199,15 +203,15 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
             Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.logout) {
-            sharedPreferences.edit().remove("freezerId").apply();
+            sharedPreferences.edit().remove(Constants.SP_FREEZER_ID).apply();
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        } else if (Item.KategorieEnum.get(item.getTitle().toString()) != null) {
-            filterKategorie(Item.KategorieEnum.get(item.getTitle().toString()));
+        } else if (Arrays.asList(kategorien).indexOf(item.getTitle().toString()) != -1){
+            itemListViewAdapter.getFilter().filter(item.getTitle().toString());
         } else if (item.getTitle().toString().contains("Fach ")) {
             filterFach(item.getTitle().toString());
-        } else if(item.getItemId()==R.id.resetFilter){
+        } else if (item.getItemId() == R.id.resetFilter) {
             itemListViewAdapter.getFilter().filter(null);
         }
 
@@ -220,10 +224,6 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
         itemListViewAdapter.getFilter().filter(split[1]);
     }
 
-    private void filterKategorie(Item.KategorieEnum kategorie) {
-        itemListViewAdapter.getFilter().filter(kategorie.getDescription());
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //Case if an item was added
@@ -234,12 +234,12 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
             //The map can simply pushed to firebase DB.
             HashMap<String, String> itemData = new HashMap<>();
             itemData.put(Constants.DB_CHILD_NAME, newItem.getName());
-            itemData.put(Constants.DB_CHILD_KATEGORIE, newItem.getKategorie().toString());
+            itemData.put(Constants.DB_CHILD_KATEGORIE, newItem.getKategorie());
             itemData.put(Constants.DB_CHILD_CREATION_DATE, Constants.SDF.format(newItem.getCreationDate()));
             itemData.put(Constants.DB_CHILD_MAX_FREEZE_DATE, Constants.SDF.format(newItem.getMaxFreezeDate()));
             itemData.put(Constants.DB_CHILD_AMOUNT, String.valueOf(newItem.getAmount()));
             itemData.put(Constants.DB_CHILD_FACH, String.valueOf(newItem.getFach()));
-            itemData.put(Constants.DB_CHILD_EINHEIT, newItem.getEinheit().toString());
+            itemData.put(Constants.DB_CHILD_EINHEIT, newItem.getEinheit());
             itemData.put(Constants.DB_CHILD_EXP_DATE_SHOWN, String.valueOf(newItem.isExpDateShown()));
 
             databaseReference.child(FREEZER_ID).child(Constants.DB_CHILD_ITEMS).push().setValue(itemData);

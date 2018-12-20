@@ -52,7 +52,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
 
     private void setValues() {
         nameTV.setText(item.getName());
-        kategorieTV.setText(item.getKategorie().getDescription());
+        kategorieTV.setText(item.getKategorie());
         creationDateTV.setText(Constants.SDF.format(item.getCreationDate()));
 
         //only set max freeze date if it is not the default value 31.12.9999
@@ -62,7 +62,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
         } else {
             maxFreezeDateTV.setText("");
         }
-        amountTV.setText(String.valueOf(item.getAmount()) + " " + item.getEinheit().getDescription());
+        amountTV.setText(String.valueOf(item.getAmount()) + " " + item.getEinheit());
         fachTV.setText(String.valueOf(item.getFach()));
     }
 
@@ -92,7 +92,7 @@ public class ShowDetailsActivity extends AppCompatActivity {
 
             HashMap<String, String> itemData = new HashMap<>();
             itemData.put(Constants.DB_CHILD_NAME, modifiedItem.getName());
-            itemData.put(Constants.DB_CHILD_KATEGORIE, modifiedItem.getKategorie().toString());
+            itemData.put(Constants.DB_CHILD_KATEGORIE, modifiedItem.getKategorie());
             itemData.put(Constants.DB_CHILD_CREATION_DATE, Constants.SDF.format(modifiedItem.getCreationDate()));
             itemData.put(Constants.DB_CHILD_MAX_FREEZE_DATE, Constants.SDF.format(modifiedItem.getMaxFreezeDate()));
             itemData.put(Constants.DB_CHILD_AMOUNT, String.valueOf(modifiedItem.getAmount()));

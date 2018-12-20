@@ -7,9 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 
-import com.example.wittmanf.gefrierschrankmanager.widget.AlertDialog;
 import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.R;
+import com.example.wittmanf.gefrierschrankmanager.widget.AlertDialog;
 
 public class SettingsActivity extends AppCompatActivity implements AlertDialog.OnInputListener {
     TextInputEditText alertET, freezerID, countFach;
@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity implements AlertDialog.O
 
         //saved value from the user
         sharedPreferences = getSharedPreferences("com.example.wittmanf.gefrierschrankmanager", MODE_PRIVATE);
-        String alertTime = sharedPreferences.getString("alertTime", Constants.ALERT_ONE_WEEK);
+        String alertTime = sharedPreferences.getString(Constants.SP_ALERT_TIME, Constants.ALERT_ONE_WEEK);
 
         freezerID = findViewById(R.id.freezerIdTV);
         freezerID.setText(MainActivity.FREEZER_ID);
@@ -31,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity implements AlertDialog.O
         freezerID.setKeyListener(null);
 
         countFach = findViewById(R.id.countfachTV);
-        countFach.setText(String.valueOf(sharedPreferences.getInt("countFach", 1)));
+        countFach.setText(String.valueOf(sharedPreferences.getInt(Constants.SP_COUNT_FACH, 1)));
 
         alertET = findViewById(R.id.alertET);
         alertET.setText(alertTime);
@@ -52,27 +52,27 @@ public class SettingsActivity extends AppCompatActivity implements AlertDialog.O
         switch (input) {
             case Constants.ALERT_THREE_DAYS:
                 alertET.setText(Constants.ALERT_THREE_DAYS);
-                sharedPreferences.edit().putString("alertTime", Constants.ALERT_THREE_DAYS).apply();
+                sharedPreferences.edit().putString(Constants.SP_ALERT_TIME, Constants.ALERT_THREE_DAYS).apply();
                 break;
             case Constants.ALERT_ONE_WEEK:
                 alertET.setText(Constants.ALERT_ONE_WEEK);
-                sharedPreferences.edit().putString("alertTime", Constants.ALERT_ONE_WEEK).apply();
+                sharedPreferences.edit().putString(Constants.SP_ALERT_TIME, Constants.ALERT_ONE_WEEK).apply();
                 break;
             case Constants.ALERT_TWO_WEEKS:
                 alertET.setText(Constants.ALERT_TWO_WEEKS);
-                sharedPreferences.edit().putString("alertTime", Constants.ALERT_TWO_WEEKS).apply();
+                sharedPreferences.edit().putString(Constants.SP_ALERT_TIME, Constants.ALERT_TWO_WEEKS).apply();
                 break;
             case Constants.ALERT_THREE_WEEKS:
                 alertET.setText(Constants.ALERT_THREE_WEEKS);
-                sharedPreferences.edit().putString("alertTime", Constants.ALERT_THREE_WEEKS).apply();
+                sharedPreferences.edit().putString(Constants.SP_ALERT_TIME, Constants.ALERT_THREE_WEEKS).apply();
                 break;
             case Constants.ALERT_FOUR_WEEKS:
                 alertET.setText(Constants.ALERT_FOUR_WEEKS);
-                sharedPreferences.edit().putString("alertTime", Constants.ALERT_FOUR_WEEKS).apply();
+                sharedPreferences.edit().putString(Constants.SP_ALERT_TIME, Constants.ALERT_FOUR_WEEKS).apply();
                 break;
             case Constants.ALERT_NEVER:
                 alertET.setText(Constants.ALERT_NEVER);
-                sharedPreferences.edit().putString("alertTime", Constants.ALERT_NEVER).apply();
+                sharedPreferences.edit().putString(Constants.SP_ALERT_TIME, Constants.ALERT_NEVER).apply();
                 break;
             default:
         }
@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity implements AlertDialog.O
             countFach.setError("Bitte die Anzahl der Fächer eingeben");
         } else {
             super.onBackPressed();
-            sharedPreferences.edit().putInt("countFach", Integer.valueOf(countFach.getText().toString())).apply();
+            sharedPreferences.edit().putInt(Constants.SP_COUNT_FACH, Integer.valueOf(countFach.getText().toString())).apply();
         }
     }
 }

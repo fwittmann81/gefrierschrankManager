@@ -4,24 +4,21 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Item implements Serializable {
     private String databaseKey;
     private String name;
-    private KategorieEnum kategorie;
+    private String kategorie;
     private Date creationDate;
     private Date maxFreezeDate;
     private int amount;
-    private EinheitenEnum einheit;
+    private String einheit;
     private int fach;
     private boolean expDateShown = false;
 
-    public Item(String name, KategorieEnum kategorie, Date maxFreezeDate, int amount, int fach, Date creationDate, EinheitenEnum einheit) {
+    public Item(String name, String kategorie, Date maxFreezeDate, int amount, int fach, Date creationDate, String einheit) {
         this.name = name;
         this.kategorie = kategorie;
         this.maxFreezeDate = maxFreezeDate;
@@ -47,11 +44,11 @@ public class Item implements Serializable {
         this.databaseKey = databaseKey;
     }
 
-    public EinheitenEnum getEinheit() {
+    public String getEinheit() {
         return einheit;
     }
 
-    public void setEinheit(EinheitenEnum einheit) {
+    public void setEinheit(String einheit) {
         this.einheit = einheit;
     }
 
@@ -63,11 +60,11 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public KategorieEnum getKategorie() {
+    public String getKategorie() {
         return kategorie;
     }
 
-    public void setKategorie(KategorieEnum kategorie) {
+    public void setKategorie(String kategorie) {
         this.kategorie = kategorie;
     }
 
@@ -105,7 +102,7 @@ public class Item implements Serializable {
 
     public static Item convertToItem(DataSnapshot dataSnapshot) {
         String name = dataSnapshot.child("name").getValue().toString();
-        KategorieEnum kategorie = KategorieEnum.valueOf(dataSnapshot.child("kategorie").getValue().toString());
+        String kategorie = dataSnapshot.child("kategorie").getValue().toString();
         Date creationDate = null;
         Date maxFreezeDate = null;
         try {
@@ -118,84 +115,12 @@ public class Item implements Serializable {
 
         int amount = Integer.valueOf(dataSnapshot.child("amount").getValue().toString());
         int fach = Integer.valueOf(dataSnapshot.child("fach").getValue().toString());
-        EinheitenEnum einheit = EinheitenEnum.valueOf(dataSnapshot.child("einheit").getValue().toString());
+        String einheit = dataSnapshot.child("einheit").getValue().toString();
 
         Item newItem = new Item(name, kategorie, maxFreezeDate, amount, fach, creationDate, einheit);
         newItem.setDatabaseKey(dataSnapshot.getKey());
         newItem.setExpDateShown(Boolean.valueOf(dataSnapshot.child("expDateShown").getValue().toString()));
         return newItem;
-    }
-
-    public enum KategorieEnum {
-        EIS("Eis", 0),
-        FISCH("Fisch", 1),
-        FLEISCH("Fleisch", 2),
-        GEMUESE("Gemüse", 3),
-        GLUTENFREI("Glutenfrei", 4),
-        OBST("Obst", 5),
-        SONSTIGES("Sonstiges", 6);
-
-        private String description;
-        private int position;
-        private static final Map<String, KategorieEnum> ENUM_MAP;
-
-        KategorieEnum(String description, int position) {
-            this.description = description;
-            this.position = position;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public int getPosition() {
-            return this.position;
-        }
-
-        static {
-            Map<String, KategorieEnum> map = new ConcurrentHashMap<>();
-            for (KategorieEnum instance : KategorieEnum.values()) {
-                map.put(instance.getDescription(), instance);
-            }
-            ENUM_MAP = Collections.unmodifiableMap(map);
-        }
-        public static KategorieEnum get(String name) {
-            return ENUM_MAP.get(name);
-        }
-    }
-
-    public enum EinheitenEnum {
-        GRAMM("g", 0),
-        VOLUMEN("ml", 1),
-        STUECK("st", 2);
-
-        private String description;
-        private int position;
-        private static final Map<String, EinheitenEnum> ENUM_MAP;
-
-        EinheitenEnum(String description, int position) {
-            this.description = description;
-            this.position = position;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public int getPosition() {
-            return this.position;
-        }
-
-        static {
-            Map<String, EinheitenEnum> map = new ConcurrentHashMap<>();
-            for (EinheitenEnum instance : EinheitenEnum.values()) {
-                map.put(instance.getDescription(), instance);
-            }
-            ENUM_MAP = Collections.unmodifiableMap(map);
-        }
-        public static EinheitenEnum get(String name) {
-            return ENUM_MAP.get(name);
-        }
     }
 
     @Override

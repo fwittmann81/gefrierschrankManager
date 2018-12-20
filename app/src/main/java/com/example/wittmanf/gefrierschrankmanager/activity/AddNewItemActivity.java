@@ -18,7 +18,6 @@ import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.Item;
 import com.example.wittmanf.gefrierschrankmanager.R;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +40,8 @@ public class AddNewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_item);
 
+        String[] kategorien = getResources().getStringArray(R.array.kategorien);
+
         //initalize all text views
         nameET = findViewById(R.id.nameET);
         kategorienSpinner = findViewById(R.id.kategorieSpinner);
@@ -50,13 +51,13 @@ public class AddNewItemActivity extends AppCompatActivity {
         fachSpinner = findViewById(R.id.fachSpinner);
 
         //initalize kategorie spinner
-        ArrayAdapter<String> myCategorieAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.kategorien));
+        ArrayAdapter<String> myCategorieAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, kategorien);
         myCategorieAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         kategorienSpinner.setAdapter(myCategorieAdapter);
 
         //initalize fach spinner
         SharedPreferences sharedPreferences = getSharedPreferences("com.example.wittmanf.gefrierschrankmanager", MODE_PRIVATE);
-        int countFach = sharedPreferences.getInt("countFach", 1);
+        int countFach = sharedPreferences.getInt(Constants.SP_COUNT_FACH, 1);
         ArrayList<String> faecher = new ArrayList<>();
         for (int i = 1; i <= countFach; i++) {
             faecher.add(String.format(getResources().getString(R.string.item_edit_section_label), i));
@@ -67,7 +68,7 @@ public class AddNewItemActivity extends AppCompatActivity {
         fachSpinner.setAdapter(myFachAdapter);
 
         //initalize einheiten spinner
-        ArrayAdapter<String> myEinheitenAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Einheiten));
+        ArrayAdapter<String> myEinheitenAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.einheiten));
         myEinheitenAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         einheitenSpinner.setAdapter(myEinheitenAdapter);
 
@@ -75,14 +76,9 @@ public class AddNewItemActivity extends AppCompatActivity {
                 new AdapterView.OnItemSelectedListener() {
 
                     @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        String einheit = String.valueOf(adapterView.getItemAtPosition(i));
-                        if (Item.EinheitenEnum.GRAMM.getDescription().equals(einheit))
-                            amountET.setHint("Gewicht");
-                        if (Item.EinheitenEnum.VOLUMEN.getDescription().equals(einheit))
-                            amountET.setHint("Volumen");
-                        if (Item.EinheitenEnum.STUECK.getDescription().equals(einheit))
-                            amountET.setHint("Anzahl");
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                        String[] einheitenLabels = getResources().getStringArray(R.array.einheitenLabels);
+                        amountET.setHint(einheitenLabels[position]);
                     }
 
                     @Override
@@ -99,10 +95,8 @@ public class AddNewItemActivity extends AppCompatActivity {
     public void openDatePicker(View view) {
         Calendar date;
         DatePickerDialog.OnDateSetListener dateListener;
-        long minDate;
         date = freezeDate;
         dateListener = expDateListener;
-        minDate = new Date().getTime();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 dateListener,
@@ -110,7 +104,7 @@ public class AddNewItemActivity extends AppCompatActivity {
                 date.get(Calendar.MONTH),
                 date.get(Calendar.DAY_OF_MONTH));
         DatePicker datePicker = datePickerDialog.getDatePicker();
-        datePicker.setMinDate(minDate);
+        datePicker.setMinDate(new Date().getTime());
         datePickerDialog.show();
     }
 
@@ -139,7 +133,7 @@ public class AddNewItemActivity extends AppCompatActivity {
     public void save() {
         if (isValid()) {
             String name = nameET.getText().toString();
-            Item.KategorieEnum kategorie = Item.KategorieEnum.get(kategorienSpinner.getSelectedItem().toString());
+            String kategorie = kategorienSpinner.getSelectedItem().toString();
 
             Date maxFreezeDate = null;
             try {
@@ -153,7 +147,7 @@ public class AddNewItemActivity extends AppCompatActivity {
             }
             int amount = Integer.valueOf(amountET.getText().toString());
             int fach = fachSpinner.getSelectedItemPosition() + 1; //Starting at position 0
-            Item.EinheitenEnum einheit = Item.EinheitenEnum.get(einheitenSpinner.getSelectedItem().toString());
+            String einheit = einheitenSpinner.getSelectedItem().toString();
 
             Item item = new Item(name, kategorie, maxFreezeDate, amount, fach, new Date(System.currentTimeMillis()), einheit);
 

@@ -21,7 +21,7 @@ public class NotificationHandler {
     public static void setNextNotification(Context context, Item item) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("com.example.wittmanf.gefrierschrankmanager", Context.MODE_PRIVATE);
 
-        long notifyBefore = Constants.ALERTIME_DAYS_MAPPING.get(sharedPreferences.getString("alertTime", Constants.ALERT_ONE_WEEK));
+        long notifyBefore = Constants.ALERTIME_DAYS_MAPPING.get(sharedPreferences.getString(Constants.SP_ALERT_TIME, Constants.ALERT_ONE_WEEK));
         long notificationTime = item.getMaxFreezeDate().getTime() - notifyBefore * 86400000;        //86400000ms = 24h
 
         String message;

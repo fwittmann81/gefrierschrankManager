@@ -20,6 +20,7 @@ import com.example.wittmanf.gefrierschrankmanager.Item;
 import com.example.wittmanf.gefrierschrankmanager.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -72,6 +73,8 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
     private final LayoutInflater mInflater;
 
     private final Context mContext;
+
+    private View mView;
 
     /**
      * The resource indicating what views to inflate to display the content of this
@@ -331,12 +334,13 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
     View createViewFromResource(int position, @NonNull ViewGroup parent) {
         String name = ((Item) getItem(position)).getName();
         int amount = ((Item) getItem(position)).getAmount();
-        String einheit = ((Item) getItem(position)).getEinheit().getDescription();
+        String einheit = ((Item) getItem(position)).getEinheit();
         int fach = ((Item) getItem(position)).getFach();
         Date haltbarkeit = ((Item) getItem(position)).getMaxFreezeDate();
         String formatedHaltbarkeit = Constants.SDF.format(haltbarkeit);
 
         View convertView = mInflater.inflate(mResource, parent, false);
+        this.mView = convertView;
 
         TextView nameTV = convertView.findViewById(R.id.customLayoutName);
         TextView fachTV = convertView.findViewById(R.id.customLayoutFach);
@@ -368,6 +372,8 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence constraint) {
             final FilterResults results = new FilterResults();
 
+            String[] kategorien = mView.getResources().getStringArray(R.array.kategorien);
+
             if (mOriginalValues == null) {
                 synchronized (mLock) {
                     mOriginalValues = new ArrayList<>(mObjects);
@@ -381,9 +387,9 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
                 }
                 results.values = list;
                 results.count = list.size();
-            } else if (Item.KategorieEnum.get(constraint.toString()) != null) {
+            } else if (Arrays.asList(kategorien).indexOf(constraint.toString()) != -1) {
                 //Filter with Kategorie
-                ArrayList<Item> filteredItems = filterKategorie(Item.KategorieEnum.get(constraint.toString()));
+                ArrayList<Item> filteredItems = filterKategorie(constraint.toString());
                 results.values = filteredItems;
                 results.count = filteredItems.size();
             } else {
@@ -405,10 +411,10 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
             return filteredItems;
         }
 
-        private ArrayList<Item> filterKategorie(Item.KategorieEnum kategorie) {
+        private ArrayList<Item> filterKategorie(String kategorie) {
             ArrayList<Item> filteredItems = new ArrayList<>();
             for (Item item : (ArrayList<Item>) mOriginalValues) {
-                if (item.getKategorie() == kategorie) {
+                if (item.getKategorie().equals(kategorie)) {
                     filteredItems.add(item);
                 }
             }
