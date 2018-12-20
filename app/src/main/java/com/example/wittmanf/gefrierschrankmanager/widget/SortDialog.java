@@ -1,4 +1,4 @@
-package com.example.wittmanf.gefrierschrankmanager;
+package com.example.wittmanf.gefrierschrankmanager.widget;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.example.wittmanf.gefrierschrankmanager.R;
 
 public class SortDialog extends DialogFragment {
 

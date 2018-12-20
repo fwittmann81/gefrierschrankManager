@@ -90,9 +90,6 @@ public class ShowDetailsActivity extends AppCompatActivity {
         if (requestCode == Constants.REQUEST_MODIFY_ITEM && resultCode == RESULT_OK && data != null) {
             final Item modifiedItem = (Item) data.getExtras().getSerializable("selectedItem");
 
-            //override current item to get all changes
-            this.item = modifiedItem;
-
             HashMap<String, String> itemData = new HashMap<>();
             itemData.put(Constants.DB_CHILD_NAME, modifiedItem.getName());
             itemData.put(Constants.DB_CHILD_KATEGORIE, modifiedItem.getKategorie().toString());
@@ -110,6 +107,9 @@ public class ShowDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Toast.makeText(ShowDetailsActivity.this, "Update erfolgreich", Toast.LENGTH_SHORT).show();
+
+                    //override current item to get all changes
+                    ShowDetailsActivity.this.item = modifiedItem;
                     setValues();
                 }
             }).addOnFailureListener(new OnFailureListener() {

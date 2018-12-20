@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/addItem"
         android:icon="@drawable/ic_freeze"
         android:title="@string/newItem"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/filterItems"
+        android:icon="@drawable/ic_filter"
+        android:title="@string/filterItems"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/resetFilter"
+                android:title="@string/filter_reset_filter"/>
+            <item
+                android:id="@+id/filter_kategorie"
+                android:title="@string/filter_item_kategorie">
+                <menu> </menu>
+            </item>
+            <item
+                android:id="@+id/filter_fach"
+                android:title="@string/filter_item_fach">
+                <menu> </menu>
+            </item>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/sortItems"

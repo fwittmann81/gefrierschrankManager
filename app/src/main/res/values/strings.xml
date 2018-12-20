@@ -5,6 +5,7 @@
     <string name="settings">Einstellungen</string>
     <string name="logout">Logout</string>
     <string name="newItem">Neue Ware einfrieren</string>
+    <string name="filterItems">Filter</string>
     <string name="Kategorie_header">Kategorie</string>
     <string name="activity_name_modify_item">Essen bearbeiten</string>
     <string name="activity_name_show_details">Details</string>
@@ -42,5 +43,9 @@
     </string-array>
 
     <string name="item_edit_section_label">Fach %1$d</string>
+
+    <string name="filter_reset_filter">Alle anzeigen</string>
+    <string name="filter_item_kategorie">Kategorie</string>
+    <string name="filter_item_fach">Fach</string>
 
 </resources>

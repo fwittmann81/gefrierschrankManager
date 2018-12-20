@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 
-import com.example.wittmanf.gefrierschrankmanager.AlertDialog;
+import com.example.wittmanf.gefrierschrankmanager.widget.AlertDialog;
 import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.R;
 
