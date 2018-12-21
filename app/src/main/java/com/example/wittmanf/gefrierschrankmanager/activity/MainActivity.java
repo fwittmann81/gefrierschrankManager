@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
                 selectedItemPostition = position;
 
                 final Item itemToDelete = (Item) itemListViewAdapter.getItem(position);
+                selectedItem = itemToDelete;
 
                 //create Dialog to ask for deletion
                 new AlertDialog.Builder(MainActivity.this)
@@ -133,8 +134,14 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 //Create for every snapshot a Item and put it to the custom Listview Adapter
                 Item changedItem = Item.convertToItem(dataSnapshot);
-                itemListViewAdapter.remove(selectedItem);
-                itemListViewAdapter.insert(changedItem, selectedItemPostition);
+                itemListViewAdapter.notifyDataSetChanged();
+
+                //only update list view if change is triggered by selection
+                //In case of notification, no update of the list view should occur.
+                if (!changedItem.isExpDateShown()) {
+                    itemListViewAdapter.remove(selectedItem);
+                    itemListViewAdapter.add(changedItem);
+                }
 
                 //Modify Notification if maxFreezeDate was set
                 if (!Constants.DEFAULT_MAX_FREEZE_DATE.equals(changedItem.getMaxFreezeDate()) && !changedItem.isExpDateShown()) {
@@ -144,12 +151,11 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Item itemToDelete = Item.convertToItem(dataSnapshot);
-                itemListViewAdapter.remove(itemToDelete);
+                itemListViewAdapter.remove(selectedItem);
 
                 //Delete Notification if maxFreezeDate was set
-                if (!Constants.DEFAULT_MAX_FREEZE_DATE.equals(itemToDelete.getMaxFreezeDate())) {
-                    NotificationHandler.deleteNotification(MainActivity.this, itemToDelete);
+                if (!Constants.DEFAULT_MAX_FREEZE_DATE.equals(selectedItem.getMaxFreezeDate())) {
+                    NotificationHandler.deleteNotification(MainActivity.this, selectedItem);
                 }
             }
 
@@ -207,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
-        } else if (Arrays.asList(kategorien).indexOf(item.getTitle().toString()) != -1){
+        } else if (Arrays.asList(kategorien).indexOf(item.getTitle().toString()) != -1) {
             itemListViewAdapter.getFilter().filter(item.getTitle().toString());
         } else if (item.getTitle().toString().contains("Fach ")) {
             filterFach(item.getTitle().toString());

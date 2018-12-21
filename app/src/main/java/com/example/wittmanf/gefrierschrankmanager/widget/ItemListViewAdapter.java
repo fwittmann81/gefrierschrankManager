@@ -1,6 +1,7 @@
 package com.example.wittmanf.gefrierschrankmanager.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import com.example.wittmanf.gefrierschrankmanager.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -76,6 +78,10 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
 
     private View mView;
 
+    private TextView nameTV;
+    private TextView fachTV;
+    private TextView haltbarkeitTV;
+
     /**
      * The resource indicating what views to inflate to display the content of this
      * array adapter.
@@ -126,9 +132,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
             if (mOriginalValues != null) {
                 mOriginalValues.add(object);
             }
-//            else {
-                mObjects.add(object);
-//            }
+            mObjects.add(object);
         }
         if (mNotifyOnChange) notifyDataSetChanged();
     }
@@ -187,9 +191,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
             if (mOriginalValues != null) {
                 mOriginalValues.add(index, object);
             }
-//            else {
-                mObjects.add(index, object);
-//            }
+            mObjects.add(index, object);
         }
         if (mNotifyOnChange) notifyDataSetChanged();
     }
@@ -205,9 +207,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
             if (mOriginalValues != null) {
                 mOriginalValues.remove(index);
             }
-//            else {
-                mObjects.remove(index);
-//            }
+            mObjects.remove(index);
         }
         if (mNotifyOnChange) notifyDataSetChanged();
     }
@@ -223,9 +223,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
             if (mOriginalValues != null) {
                 mOriginalValues.remove(object);
             }
-//            else {
-                mObjects.remove(object);
-//            }
+            mObjects.remove(object);
         }
         if (mNotifyOnChange) notifyDataSetChanged();
     }
@@ -254,11 +252,10 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
      */
     public void sort(@NonNull Comparator<? super T> comparator) {
         synchronized (mLock) {
-//            if (mOriginalValues != null) {
-//                Collections.sort(mOriginalValues, comparator);
-//            } else {
-                Collections.sort(mObjects, comparator);
-//            }
+            if (mOriginalValues != null) {
+                Collections.sort(mOriginalValues, comparator);
+            }
+            Collections.sort(mObjects, comparator);
         }
         if (mNotifyOnChange) notifyDataSetChanged();
     }
@@ -342,15 +339,41 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
         View convertView = mInflater.inflate(mResource, parent, false);
         this.mView = convertView;
 
-        TextView nameTV = convertView.findViewById(R.id.customLayoutName);
-        TextView fachTV = convertView.findViewById(R.id.customLayoutFach);
-        TextView haltbarkeitTV = convertView.findViewById(R.id.customLayoutHaltbarkeit);
+        nameTV = convertView.findViewById(R.id.customLayoutName);
+        fachTV = convertView.findViewById(R.id.customLayoutFach);
+        haltbarkeitTV = convertView.findViewById(R.id.customLayoutHaltbarkeit);
 
         nameTV.setText(name + " (" + amount + " " + einheit + ")");
         fachTV.setText(String.format(convertView.getResources().getString(R.string.item_edit_section_label), fach));
         haltbarkeitTV.setText(Constants.DEFAULT_MAX_FREEZE_DATE.equals(formatedHaltbarkeit) ? "" : formatedHaltbarkeit);
 
+        //check max freeze date to color entries only when max freeze date was set
+        computeTextColor(haltbarkeit, formatedHaltbarkeit);
+
         return convertView;
+    }
+
+    private void computeTextColor(Date haltbarkeit, String formatedHaltbarkeit) {
+        if (!Constants.DEFAULT_MAX_FREEZE_DATE.equals(formatedHaltbarkeit)) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH, 14); //add 2 Weeks
+
+            if (calendar.getTimeInMillis() >= haltbarkeit.getTime()) {
+                colorText(Color.RED);
+                return;
+            }
+
+            calendar.add(Calendar.DAY_OF_MONTH, 14); //add 2 Weeks = 4 Weeks in future
+            if (calendar.getTimeInMillis() >= haltbarkeit.getTime()) {
+                colorText(Color.rgb(0, 204, 0)); //dark green
+            }
+        }
+    }
+
+    private void colorText(int color) {
+        nameTV.setTextColor(color);
+        fachTV.setTextColor(color);
+        haltbarkeitTV.setTextColor(color);
     }
 
     @Override
