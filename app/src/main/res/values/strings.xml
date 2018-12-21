@@ -1,29 +1,30 @@
 <resources>
-    <string name="app_name">What\'s in the Freezer?</string>
-    <string name="activity_main">Inhalt</string>
-    <string name="activity_name_add_item">Essen einfrieren</string>
-    <string name="settings">Einstellungen</string>
-    <string name="logout">Logout</string>
-    <string name="newItem">Neue Ware einfrieren</string>
-    <string name="filterItems">Filter</string>
-    <string name="Kategorie_header">Kategorie</string>
-    <string name="activity_name_modify_item">Essen bearbeiten</string>
-    <string name="activity_name_show_details">Details</string>
+    <string name="app_name" translatable="false">What\'s in the Freezer?</string>
+    <string name="activity_main" translatable="false">Inhalt</string>
+    <string name="activity_name_add_item" translatable="false">Essen einfrieren</string>
+    <string name="settings" translatable="false">Einstellungen</string>
+    <string name="logout" translatable="false">Logout</string>
+    <string name="newItem" translatable="false">Neue Ware einfrieren</string>
+    <string name="filterItems" translatable="false">Filter</string>
+    <string name="Kategorie_header" translatable="false">Kategorie</string>
+    <string name="activity_name_modify_item" translatable="false">Essen bearbeiten</string>
+    <string name="activity_name_show_details" translatable="false">Details</string>
 
-    <string-array name="kategorien">
-        <item>Eis</item>
+    <string-array name="kategorien" >
+        <item>Brot/Semmel</item>
         <item>Fisch</item>
         <item>Fleisch</item>
         <item>Gemüse</item>
         <item>Glutenfrei</item>
         <item>Obst</item>
+        <item>Süßes</item>
         <item>Sonstiges</item>
     </string-array>
 
     <string-array name="einheiten">
         <item>g</item>
         <item>ml</item>
-        <item>st</item>
+        <item>St</item>
     </string-array>
 
     <string-array name="einheitenLabels">
@@ -48,10 +49,10 @@
         <item>Nie</item>
     </string-array>
 
-    <string name="item_edit_section_label">Fach %1$d</string>
+    <string name="item_edit_section_label" translatable="false">Fach %1$d</string>
 
-    <string name="filter_reset_filter">Alle anzeigen</string>
-    <string name="filter_item_kategorie">Kategorie</string>
-    <string name="filter_item_fach">Fach</string>
+    <string name="filter_reset_filter" translatable="false">Alle anzeigen</string>
+    <string name="filter_item_kategorie" translatable="false">Kategorie</string>
+    <string name="filter_item_fach" translatable="false">Fach</string>
 
 </resources>

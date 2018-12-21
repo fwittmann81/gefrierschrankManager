@@ -9,16 +9,18 @@
         android:id="@+id/customLayoutName"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_weight="66.6"
-        android:gravity="center"
+        android:layout_weight="40"
+        android:layout_gravity="left"
+        android:gravity="center_vertical"
         android:text="Name"
-        android:textAlignment="center"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
         android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="33.3"
+        android:layout_weight="60"
         android:orientation="vertical">
 
         <TextView
