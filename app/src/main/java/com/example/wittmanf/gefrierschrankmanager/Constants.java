@@ -25,7 +25,6 @@ public class Constants {
     public static final String ALERT_NEVER = "Nie";
 
     public static final HashMap<String, Integer> ALERTIME_DAYS_MAPPING = new HashMap<>();
-
     static {
         ALERTIME_DAYS_MAPPING.put(ALERT_THREE_DAYS, 3);
         ALERTIME_DAYS_MAPPING.put(ALERT_ONE_WEEK, 7);

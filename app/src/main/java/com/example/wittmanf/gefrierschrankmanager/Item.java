@@ -72,10 +72,6 @@ public class Item implements Serializable {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
     public Date getMaxFreezeDate() {
         return maxFreezeDate;
     }

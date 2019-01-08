@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -81,6 +82,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
     private TextView nameTV;
     private TextView fachTV;
     private TextView haltbarkeitTV;
+    private ImageView kategorieIV;
 
     /**
      * The resource indicating what views to inflate to display the content of this
@@ -335,6 +337,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
         int fach = ((Item) getItem(position)).getFach();
         Date haltbarkeit = ((Item) getItem(position)).getMaxFreezeDate();
         String formatedHaltbarkeit = Constants.SDF.format(haltbarkeit);
+        String kategorie = ((Item) getItem(position)).getKategorie();
 
         View convertView = mInflater.inflate(mResource, parent, false);
         this.mView = convertView;
@@ -342,6 +345,7 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
         nameTV = convertView.findViewById(R.id.customLayoutName);
         fachTV = convertView.findViewById(R.id.customLayoutFach);
         haltbarkeitTV = convertView.findViewById(R.id.customLayoutHaltbarkeit);
+        kategorieIV = convertView.findViewById(R.id.kategorieIV);
 
         nameTV.setText(name + " (" + amount + " " + einheit + ")");
         fachTV.setText(String.format(convertView.getResources().getString(R.string.item_edit_section_label), fach));
@@ -349,8 +353,38 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
 
         //check max freeze date to color entries only when max freeze date was set
         computeTextColor(haltbarkeit, formatedHaltbarkeit);
+        computeIcon(kategorie);
 
         return convertView;
+    }
+
+    private void computeIcon(String kategorie) {
+        switch(kategorie){
+            case "Brot/Semmel":
+                kategorieIV.setImageResource(R.drawable.ic_bread);
+                break;
+            case "Fisch":
+                kategorieIV.setImageResource(R.drawable.ic_fish);
+                break;
+            case "Fleisch":
+                kategorieIV.setImageResource(R.drawable.ic_meat);
+                break;
+            case "Gemüse":
+                kategorieIV.setImageResource(R.drawable.ic_gemuese);
+                break;
+            case "Glutenfrei":
+                kategorieIV.setImageResource(R.drawable.ic_gluten_free);
+                break;
+            case "Obst":
+                kategorieIV.setImageResource(R.drawable.ic_obst);
+                break;
+            case "Süßes":
+                kategorieIV.setImageResource(R.drawable.ic_sweet);
+                break;
+            case "Sonstiges":
+            default:
+                kategorieIV.setImageResource(R.drawable.ic_sonstiges);
+        }
     }
 
     private void computeTextColor(Date haltbarkeit, String formatedHaltbarkeit) {

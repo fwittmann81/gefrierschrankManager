@@ -21,9 +21,9 @@ import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText freezerCodeET;
-    RadioGroup radioGroup;
-    SharedPreferences sharedPreferences;
+    private EditText freezerCodeET;
+    private RadioGroup radioGroup;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

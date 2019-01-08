@@ -41,15 +41,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements SortDialog.OnInputListener {
+    public static String FREEZER_ID;
     private static final String TAG = "MainActivity";
     private ArrayList<Item> allItems = new ArrayList<>();
-    private int selectedItemPostition = 0;
     private Item selectedItem;
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     private ItemListViewAdapter itemListViewAdapter;
-    SharedPreferences sharedPreferences;
-    public static String FREEZER_ID;
-    String[] kategorien;
+    private SharedPreferences sharedPreferences;
+    private String[] kategorien;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
         itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedItemPostition = position;
                 Intent intent = new Intent(MainActivity.this, ShowDetailsActivity.class);
                 selectedItem = (Item) itemListViewAdapter.getItem(position);
                 intent.putExtra("selectedItem", selectedItem);
@@ -82,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
         itemListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedItemPostition = position;
-
                 final Item itemToDelete = (Item) itemListViewAdapter.getItem(position);
                 selectedItem = itemToDelete;
 
@@ -167,6 +163,9 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        //sort data by Haltbarkeit at startup
+        sendSortCriteria(Constants.SORT_HALTBARKEIT);
     }
 
     //Create settings menu
