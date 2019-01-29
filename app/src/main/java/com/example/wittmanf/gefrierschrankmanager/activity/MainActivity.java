@@ -22,6 +22,7 @@ import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.Item;
 import com.example.wittmanf.gefrierschrankmanager.R;
 import com.example.wittmanf.gefrierschrankmanager.comparator.FachComparator;
+import com.example.wittmanf.gefrierschrankmanager.comparator.InitialComparator;
 import com.example.wittmanf.gefrierschrankmanager.comparator.KategorieComparator;
 import com.example.wittmanf.gefrierschrankmanager.comparator.MaxHaltbarkeitComparator;
 import com.example.wittmanf.gefrierschrankmanager.comparator.NameComparator;
@@ -124,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
                 if (!Constants.DEFAULT_MAX_FREEZE_DATE.equals(Constants.SDF.format(addedItem.getMaxFreezeDate())) && !addedItem.isExpDateShown()) {
                     NotificationHandler.setNextNotification(MainActivity.this, addedItem);
                 }
+
+                sendSortCriteria(Constants.SORT_INITIAL);
             }
 
             @Override
@@ -143,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
                 if (!Constants.DEFAULT_MAX_FREEZE_DATE.equals(changedItem.getMaxFreezeDate()) && !changedItem.isExpDateShown()) {
                     NotificationHandler.setNextNotification(MainActivity.this, changedItem);
                 }
+
+                sendSortCriteria(Constants.SORT_INITIAL);
             }
 
             @Override
@@ -163,9 +168,6 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-        //sort data by Haltbarkeit at startup
-        sendSortCriteria(Constants.SORT_HALTBARKEIT);
     }
 
     //Create settings menu
@@ -255,6 +257,9 @@ public class MainActivity extends AppCompatActivity implements SortDialog.OnInpu
     @Override
     public void sendSortCriteria(String input) {
         switch (input) {
+            case Constants.SORT_INITIAL:
+                itemListViewAdapter.sort(new InitialComparator());
+                break;
             case Constants.SORT_NAME:
                 itemListViewAdapter.sort(new NameComparator());
                 break;

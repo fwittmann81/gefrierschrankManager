@@ -12,6 +12,7 @@ public class Constants {
 
     //Sort options constants
     public static final String SORT_NAME = "Name";
+    public static final String SORT_INITIAL = "Initial";
     public static final String SORT_KATEGORIE = "Kategorie";
     public static final String SORT_HALTBARKEIT = "Haltbarkeit";
     public static final String SORT_FACH = "Fach";

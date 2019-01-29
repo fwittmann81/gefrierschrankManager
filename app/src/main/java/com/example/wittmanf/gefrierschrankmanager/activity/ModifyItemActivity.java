@@ -70,7 +70,7 @@ public class ModifyItemActivity extends AppCompatActivity {
 
         //initalize einheiten spinner
         String[] einheiten = getResources().getStringArray(R.array.einheiten);
-        ArrayAdapter<String> myEinheitenAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.einheiten));
+        ArrayAdapter<String> myEinheitenAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, einheiten);
         myEinheitenAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         einheitenSpinner.setAdapter(myEinheitenAdapter);
 
@@ -95,7 +95,7 @@ public class ModifyItemActivity extends AppCompatActivity {
         //fill fields with the values of item
         nameET.setText(item.getName());
         kategorienSpinner.setSelection(Arrays.asList(kategorien).indexOf(item.getKategorie()));
-        einheitenSpinner.setSelection(Arrays.asList(kategorien).indexOf(item.getEinheit()));
+        einheitenSpinner.setSelection(Arrays.asList(einheiten).indexOf(item.getEinheit()));
 
         //only set max freeze date if it is not the default value 31.12.9999
         String maxFreezeDate = Constants.SDF.format(item.getMaxFreezeDate());
