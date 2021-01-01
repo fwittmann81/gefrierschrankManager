@@ -12,6 +12,7 @@
 
     <string-array name="kategorien" >
         <item>Brot/Semmel</item>
+        <item>Fertigprodukt</item>
         <item>Fisch</item>
         <item>Fleisch</item>
         <item>Gemüse</item>

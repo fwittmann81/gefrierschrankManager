@@ -4,7 +4,7 @@ import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationManagerCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.activity.MainActivity;

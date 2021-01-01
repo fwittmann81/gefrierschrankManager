@@ -2,8 +2,8 @@ package com.example.wittmanf.gefrierschrankmanager.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputEditText;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 

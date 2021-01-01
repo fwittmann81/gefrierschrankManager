@@ -2,9 +2,9 @@ package com.example.wittmanf.gefrierschrankmanager.widget;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wittmanf.gefrierschrankmanager.Constants;
 import com.example.wittmanf.gefrierschrankmanager.Item;
@@ -57,7 +59,7 @@ import java.util.List;
  * </p>
  * <p class="note"><strong>Note:</strong>
  * If you are considering using array adapter with a ListView, consider using
- * {@link android.support.v7.widget.RecyclerView} instead.
+ * {@link RecyclerView} instead.
  * RecyclerView offers similar features with better performance and more flexibility than
  * ListView provides.
  * See the
@@ -362,6 +364,9 @@ public class ItemListViewAdapter<T> extends BaseAdapter implements Filterable {
         switch(kategorie){
             case "Brot/Semmel":
                 kategorieIV.setImageResource(R.drawable.ic_bread);
+                break;
+            case "Fertigprodukt":
+                kategorieIV.setImageResource(R.drawable.ic_pizza);
                 break;
             case "Fisch":
                 kategorieIV.setImageResource(R.drawable.ic_fish);

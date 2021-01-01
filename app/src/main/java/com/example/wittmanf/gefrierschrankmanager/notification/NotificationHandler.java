@@ -6,7 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.example.wittmanf.gefrierschrankmanager.BaseApplication;
 import com.example.wittmanf.gefrierschrankmanager.Constants;
